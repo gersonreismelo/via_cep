@@ -1,27 +1,42 @@
+package br.com.via_cep.main;
+
+import br.com.via_cep.models.Endereco;
+import br.com.via_cep.service.BuscarEndereco;
+import br.com.via_cep.util.EscritorArquivo;
+import com.google.gson.JsonSyntaxException;
+
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Digite o cep que deseja encontrar:");
-        String cep = sc.nextLine();
+        String cep = "";
+        List<Endereco> enderecos = new ArrayList<>();
+        BuscarEndereco endereco = new BuscarEndereco();
+        EscritorArquivo arquivo = new EscritorArquivo();
 
-        String endereco = "https://viacep.com.br/ws/%s/json/".formatted(cep);
+        while (!cep.equalsIgnoreCase("sair")) {
+            System.out.println("Digite os ceps que deseja encontrar ou (sair):");
+            cep = sc.nextLine();
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endereco)).build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (cep.equals("sair")) {
+                break;
+            }
+            try {
+                enderecos.add(endereco.buscando(cep));
+            } catch (JsonSyntaxException e) {
+                System.out.println("Cep invalido!");
+                break;
+            }
+        }
 
-        Gson gson = new Gson();
-        Endereco endereco1 = gson.fromJson(response.body(), Endereco.class);
-        System.out.println(endereco1);
+        arquivo.escreverEnderecos(enderecos, "Endereços.txt");
+        System.out.println(enderecos);
+        System.out.println("O programa finalizou corretamente!");
+
     }
 }

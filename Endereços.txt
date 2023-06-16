@@ -1,0 +1,18 @@
+[
+  {
+    "cep": "08340-500",
+    "logradouro": "Rua Pêra-Mirim",
+    "complemento": "",
+    "bairro": "Jardim Vila Carrão",
+    "localidade": "São Paulo",
+    "uf": "SP"
+  },
+  {
+    "cep": "08330-600",
+    "logradouro": "Rua Vicente Lopes",
+    "complemento": "",
+    "bairro": "Cidade Satélite Santa Bárbara",
+    "localidade": "São Paulo",
+    "uf": "SP"
+  }
+]
